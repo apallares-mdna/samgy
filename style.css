@@ -1,0 +1,34 @@
+body {
+    margin: 0;
+    font-family: 'Open Sans' , sans-serif;
+    background: #D9E2E8;
+}
+
+header {
+  background: #03658C;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+nav a {
+    color: white;
+    margin: 10px;
+    text-decoration: none;
+}
+
+.hero {
+    padding: 50px;
+    text-align: center;
+    background: #4FB3D9;
+    color: white;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background: white;
+    color: #03658C;
+    cursor: pointer;
+}
