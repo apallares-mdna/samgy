@@ -14,7 +14,7 @@
 
 ---
 
-## 📋 Descripción del Problema
+##  Descripción del Problema
 En la formación de enfermería del Colegio San Alberto Magno, la recolección y consulta de datos (registros académicos, inventarios de prácticas y seguimiento de estudiantes) requiere rapidez y precisión.
 
 **SAMGY** busca resolver esta problemática ofreciendo un aplicativo web interactivo, organizado y de fácil acceso para estudiantes y docentes.
