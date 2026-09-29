@@ -1,42 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UFT-8">
-<title> SAMGY </title>
-<link rel="stylesheet" href="style.css">
-
-<!-- Google fonts -->
- <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&display=swap" rel="stylesheet">
-    </head>
-
-    <body>
-        <header id="header">
-  <h1>SAMGY</h1>
-  <nav>
-    <a href="#">Inicio</a>
-    <a href="#">Sistema</a>
-    <a href="#">Beneficios</a>
-    <a href="#">Contacto</a>
-  </nav>
-</header>
-
-<main>
-    <section class="hero">
-        <h2>Gestion de salud escolar inteligente</h2>
-        <button onclick="cambiaColor()">Probar Sistema</button>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMGY - Registro Médico Escolar</title>
     
-    </section>
+    <!-- Fuente Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Enlace al archivo CSS externo -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <section>
-      <h2>¿Qué es SAMGY?</h2>
-    <p>Es una plataforma web que permite organizar y gestionar la información médica de estudiantes.</p>  
-    </section>
-</main>
+    <!-- Encabezado Principal -->
+    <header>
+        <div>
+            <h1>SAMGY</h1>
+            <p>Sistema de Gestión de Enfermería Escolar</p>
+        </div>
+        <div>
+            <span class="estado-enfermeria">Enfermería Activa</span>
+        </div>
+    </header>
 
-<footer>
-      <p>© 2026 Proyecto SAMGY</p>
-</footer>
+    <!-- Menú de navegación básico -->
+    <nav>
+        <ul>
+            <li><a href="#" class="activo">Inicio</a></li>
+            <li><a href="#">Buscar Estudiante</a></li>
+            <li><a href="#">Nuevo Registro</a></li>
+        </ul>
+    </nav>
 
-<script src="sript.js"></script>
-    </body>
+    <!-- Contenido Principal -->
+    <main class="contenedor">
+        
+        <section class="tarjeta">
+            <h2>Consulta Rápida de Estudiantes</h2>
+            <p>Ingresa el documento o nombre del estudiante para ver su ficha médica básica.</p>
+            
+            <div class="busqueda">
+                <input type="text" id="inputBusqueda" placeholder="Ej: Laura Martínez o N° Documento...">
+                <button type="button" id="btnBuscar">Buscar</button>
+            </div>
+        </section>
+
+        <section class="tarjeta">
+            <h2>Estado del Sistema</h2>
+            <p>Estudiantes registrados en la base de datos: <strong>0</strong></p>
+            <p>Atenciones realizadas hoy: <strong>0</strong></p>
+        </section>
+
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>Proyecto SAMGY - Yaricel Bayter, Mathias Hernández, Gabriela Martínez, Andrea Pallares, Sajoha Vasquez</p>
+    </footer>
+
+    <!-- Enlace al archivo JavaScript externo -->
+    <script src="script.js"></script>
+</body>
 </html>
