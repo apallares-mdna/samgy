@@ -1,67 +1,184 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAMGY - Registro Médico Escolar</title>
-    
-    <!-- Fuente Montserrat -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Enlace al archivo CSS externo -->
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAMGY - Sistema de Gestión de Enfermería Escolar</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #e6eef3;
+      color: #333;
+    }
+
+    header {
+      background-color: #00668c;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-top: 4px;
+    }
+
+    nav {
+      background-color: #004d69;
+      padding: 12px 0;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #a3e0ff;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    h2 {
+      color: #004d69;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+
+    p {
+      margin-bottom: 15px;
+      color: #555;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 10px;
+      max-width: 500px;
+    }
+
+    .search-box input[type="text"] {
+      flex: 1;
+      padding: 10px 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .search-box input[type="text"]:focus {
+      border-color: #00668c;
+    }
+
+    .search-box button {
+      background-color: #00668c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .search-box button:hover {
+      background-color: #004d69;
+    }
+
+    .status-list {
+      list-style: none;
+    }
+
+    .status-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .status-list li:last-child {
+      border-bottom: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 40px;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Encabezado Principal -->
-    <header>
-        <div>
-            <h1>SAMGY</h1>
-            <p>Sistema de Gestión de Enfermería Escolar</p>
-        </div>
-        <div>
-            <span class="estado-enfermeria">Enfermería Activa</span>
-        </div>
-    </header>
+  <header>
+    <h1>SAMGY</h1>
+    <p>Sistema de Gestión de Enfermería Escolar</p>
+    <p><strong>Enfermería Activa</strong></p>
+  </header>
 
-    <!-- Menú de navegación básico -->
-    <nav>
-        <ul>
-            <li><a href="#" class="activo">Inicio</a></li>
-            <li><a href="#">Buscar Estudiante</a></li>
-            <li><a href="#">Nuevo Registro</a></li>
-        </ul>
-    </nav>
+  <nav>
+    <ul>
+      <li><a href="#">Inicio</a></li>
+      <li><a href="#">Buscar Estudiante</a></li>
+      <li><a href="#">Nuevo Registro</a></li>
+    </ul>
+  </nav>
 
-    <!-- Contenido Principal -->
-    <main class="contenedor">
-        
-        <section class="tarjeta">
-            <h2>Consulta Rápida de Estudiantes</h2>
-            <p>Ingresa el documento o nombre del estudiante para ver su ficha médica básica.</p>
-            
-            <div class="busqueda">
-                <input type="text" id="inputBusqueda" placeholder="Ej: Laura Martínez o N° Documento...">
-                <button type="button" id="btnBuscar">Buscar</button>
-            </div>
-        </section>
+  <main>
+   
+    <section class="card">
+      <h2>Consulta Rápida de Estudiantes</h2>
+      <p>Ingresa el documento o nombre del estudiante para ver su ficha médica básica.</p>
+      <div class="search-box">
+        <input type="text" placeholder="Ej: Laura Martínez o N° Doc">
+        <button type="button">Buscar</button>
+      </div>
+    </section>
+    <section class="card">
+      <h2>Estado del Sistema</h2>
+      <ul class="status-list">
+        <li>Estudiantes registrados en la base de datos: <strong>0</strong></li>
+        <li>Atenciones realizadas hoy: <strong>0</strong></li>
+      </ul>
+    </section>
+  </main>
 
-        <section class="tarjeta">
-            <h2>Estado del Sistema</h2>
-            <p>Estudiantes registrados en la base de datos: <strong>0</strong></p>
-            <p>Atenciones realizadas hoy: <strong>0</strong></p>
-        </section>
+  <footer>
+    Proyecto SAMGY - Yaricel Bayter, Mathias Hernández, Gabriela Martínez, Andrea Pallares, Sajoha Vasquez
+  </footer>
 
-    </main>
-
-    <!-- Pie de página -->
-    <footer>
-        <p>Proyecto SAMGY - Yaricel Bayter, Mathias Hernández, Gabriela Martínez, Andrea Pallares, Sajoha Vasquez</p>
-    </footer>
-
-    <!-- Enlace al archivo JavaScript externo -->
-    <script src="script.js"></script>
 </body>
 </html>
