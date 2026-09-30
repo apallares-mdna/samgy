@@ -1,44 +1,100 @@
-body {
-    margin: 0;
-    font-family: 'Open Sans' , sans-serif;
-    background: #D9E2E8;
+
+:root {
+    --azul-oscuro: #03658C;
+    --azul-claro: #4FB3D9;
+    --gris-fondo: #D9E2E8;
+    --blanco: #FFFFFF;
+    --texto-oscuro: #2C3E50;
+    --verde-alta: #E2F0D9;
+    --texto-alta: #385723;
+    --amarillo-obs: #FFF2CC;
+    --texto-obs: #B25900;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background: var(--gris-fondo);
+    color: var(--texto-oscuro);
+}
+
+
+
 header {
-  background: #03658C;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  font-family: 'Montserrat', sans-serif;
+    background: var(--azul-oscuro);
+    color: var(--blanco);
+    padding: 20px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+nav {
+    margin-top: 15px;
 }
 
 nav a {
-    color: white;
-    margin: 10px;
+    color: var(--blanco);
+    margin: 0 10px;
     text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
 }
 
+nav a.activo {
+    font-weight: bold;
+    border-bottom: 2px solid var(--blanco);
+    padding-bottom: 2px;
+}
+
+
 .hero {
-    padding: 50px;
+    padding: 50px 20px;
     text-align: center;
-    background: #4FB3D9;
-    color: white;
+    background: var(--azul-claro);
+    color: var(--blanco);
+}
+
+.hero h2 {
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 10px;
+}
+
+.busqueda-rapida {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.busqueda-rapida input {
+    padding: 10px 15px;
+    width: 300px;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    font-size: 14px;
 }
 
 button {
     padding: 10px 20px;
     border: none;
-    background: white;
-    color: #03658C;
+    background: var(--blanco);
+    color: var(--azul-oscuro);
     cursor: pointer;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: background 0.2s;
 }
-nav{
-    margin-top:  15px;
+
+button:hover {
+    background-color: #E6E6E6;
 }
-nav a. activo {
-    font-weight:bols;
-    border-bottom: 2px solid white;
-}
+
+
 .contenido-grid {
     display: flex;
     gap: 20px;
@@ -46,49 +102,99 @@ nav a. activo {
     margin: 30px auto;
     padding: 0 15px;
 }
-.tarjeta-info {
-    background: white;
-    flex: 1;
-    padding: 20px;
-    border-left: 5px solid #03658C;
-    box-shadeow: 0 2px 5px rgba(0,0,0,0,05);
-}
-.tarjeta-info h3 {
-    color: #03658C;
-    margin-bottom: 10px; 
-    front-family: 'Montserrat', sans-serif;
-}
-.busqueda-rapida {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-.busqueda-rapida input {
-    padding: 10 px 15 px;
-    width: 30px;
-    border: 1px solid #CCC;
-    border-radius: 4px;
-    front-size:14px;
-}
-footer {
-    text-align: center;
-    padding: 20 px;
-    font-size: 12px;
-    color #555;
-    margin-top: 40px;
-}
- 
+
+.contenedor-seccion {
     max-width: 900px;
     margin: 20px auto;
     padding: 0 15px;
 }
 
-
+.contenedor-seccion .tarjeta-info {
     width: 100%;
 }
 
+.tarjeta-info {
+    background: var(--blanco);
+    flex: 1;
+    padding: 20px;
+    border-radius: 6px;
+    border-left: 5px solid var(--azul-oscuro);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
 
+.tarjeta-info h3 {
+    color: var(--azul-oscuro);
+    margin-bottom: 10px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.tarjeta-info ul {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.tarjeta-info li {
+    padding: 6px 0;
+    border-bottom: 1px solid #EAEAEA;
+    font-size: 14px;
+}
+
+.tarjeta-info span {
+    font-weight: bold;
+    color: var(--azul-oscuro);
+}
+
+
+.formulario-medico {
+    margin-top: 15px;
+}
+
+.form-grupo-doble {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.form-campo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-campo label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--texto-oscuro);
+}
+
+.form-campo input, .form-campo select {
+    padding: 10px;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.btn-guardar {
+    background-color: var(--azul-oscuro);
+    color: var(--blanco);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.btn-guardar:hover {
+    background-color: #024b68;
+}
+
+
+
+.tabla-contenedor {
     width: 100%;
     overflow-x: auto;
     margin-top: 15px;
@@ -97,13 +203,13 @@ footer {
 table {
     width: 100%;
     border-collapse: collapse;
-    background-color: var(--blanco, #FFFFFF);
+    background-color: var(--blanco);
     font-size: 14px;
 }
 
 th {
-    background-color: var(--azul-oscuro, #03658C);
-    color: var(--blanco, #FFFFFF);
+    background-color: var(--azul-oscuro);
+    color: var(--blanco);
     text-align: left;
     padding: 12px;
     font-family: 'Montserrat', sans-serif;
@@ -112,14 +218,14 @@ th {
 
 td {
     padding: 12px;
-    border-bottom: 1px solid var(--gris-fondo, #D9E2E8);
+    border-bottom: 1px solid var(--gris-fondo);
 }
 
 tr:hover {
     background-color: #F4F7F9;
 }
 
-/* Badges / Etiquetas de estado de salud */
+/* Badges / Etiquetas de Estado */
 .badge {
     display: inline-block;
     padding: 4px 10px;
@@ -129,11 +235,29 @@ tr:hover {
 }
 
 .badge-alta {
-    background-color: #E2F0D9;
-    color: #385723;
+    background-color: var(--verde-alta);
+    color: var(--texto-alta);
 }
 
 .badge-observacion {
-    background-color: #FFF2CC;
-    color: #B25900;
-} 
+    background-color: var(--amarillo-obs);
+    color: var(--texto-obs);
+}
+
+.btn-detalles {
+    background-color: var(--azul-claro);
+    color: var(--blanco);
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+
+
+footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: #555;
+    margin-top: 40px;
+}
