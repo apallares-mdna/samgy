@@ -1,263 +1,262 @@
 
 :root {
-    --azul-oscuro: #03658C;
-    --azul-claro: #4FB3D9;
-    --gris-fondo: #D9E2E8;
-    --blanco: #FFFFFF;
-    --texto-oscuro: #2C3E50;
-    --verde-alta: #E2F0D9;
-    --texto-alta: #385723;
-    --amarillo-obs: #FFF2CC;
-    --texto-obs: #B25900;
-}
+ 
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Open Sans', sans-serif;
-    background: var(--gris-fondo);
-    color: var(--texto-oscuro);
+  font-family: 'Open Sans', sans-serif;
+  background-color: var(--gris-fondo);
+  color: var(--texto-oscuro);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
+h1, h2, h3, th {
+  font-family: 'Montserrat', sans-serif;
+}
 
 
 header {
-    background: var(--azul-oscuro);
-    color: var(--blanco);
-    padding: 20px;
-    text-align: center;
-    font-family: 'Montserrat', sans-serif;
+  background-color: var(--azul-oscuro);
+  color: var(--blanco);
+  padding: 25px 20px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+  font-size: 2.2rem;
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+}
+
+header p {
+  font-size: 1rem;
+  opacity: 0.9;
 }
 
 nav {
-    margin-top: 15px;
+  background-color: #024b68;
+  padding: 12px 0;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 nav a {
-    color: var(--blanco);
-    margin: 0 10px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 14px;
+  color: var(--blanco);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background 0.3s ease;
 }
 
-nav a.activo {
-    font-weight: bold;
-    border-bottom: 2px solid var(--blanco);
-    padding-bottom: 2px;
+nav a:hover, nav a.activo {
+  background-color: var(--azul-claro);
 }
 
-
-.hero {
-    padding: 50px 20px;
-    text-align: center;
-    background: var(--azul-claro);
-    color: var(--blanco);
+  max-width: 900px;
+  width: 90%;
+  margin: 30px auto;
+  flex: 1;
 }
 
-.hero h2 {
-    font-family: 'Montserrat', sans-serif;
-    margin-bottom: 10px;
+.card {
+  background: var(--blanco);
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border-left: 5px solid var(--azul-oscuro);
 }
 
-.busqueda-rapida {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
+.card h2 {
+  color: var(--azul-oscuro);
+  margin-bottom: 12px;
+  font-size: 1.4rem;
 }
 
-.busqueda-rapida input {
-    padding: 10px 15px;
-    width: 300px;
-    border: 1px solid #CCC;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-button {
-    padding: 10px 20px;
-    border: none;
-    background: var(--blanco);
-    color: var(--azul-oscuro);
-    cursor: pointer;
-    font-weight: 600;
-    border-radius: 4px;
-    transition: background 0.2s;
-}
-
-button:hover {
-    background-color: #E6E6E6;
+.card p {
+  margin-bottom: 15px;
+  color: #555;
+  font-size: 0.95rem;
 }
 
 
-.contenido-grid {
-    display: flex;
-    gap: 20px;
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 0 15px;
+.search-box {
+  display: flex;
+  gap: 10px;
+  max-width: 500px;
 }
 
-.contenedor-seccion {
-    max-width: 900px;
-    margin: 20px auto;
-    padding: 0 15px;
+.search-box input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #CCC;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  outline: none;
 }
 
-.contenedor-seccion .tarjeta-info {
-    width: 100%;
+.search-box input:focus {
+  border-color: var(--azul-oscuro);
 }
 
-.tarjeta-info {
-    background: var(--blanco);
-    flex: 1;
-    padding: 20px;
-    border-radius: 6px;
-    border-left: 5px solid var(--azul-oscuro);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+/* LISTA DE ESTADO */
+.status-list {
+  list-style: none;
 }
 
-.tarjeta-info h3 {
-    color: var(--azul-oscuro);
-    margin-bottom: 10px;
-    font-family: 'Montserrat', sans-serif;
+.status-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid #EEE;
+  font-size: 0.95rem;
 }
 
-.tarjeta-info ul {
-    list-style: none;
-    margin-top: 10px;
+.status-list li:last-child {
+  border-bottom: none;
 }
 
-.tarjeta-info li {
-    padding: 6px 0;
-    border-bottom: 1px solid #EAEAEA;
-    font-size: 14px;
+.status-list strong {
+  color: var(--azul-oscuro);
+  font-size: 1.1rem;
 }
 
-.tarjeta-info span {
-    font-weight: bold;
-    color: var(--azul-oscuro);
-}
-
-
-.formulario-medico {
-    margin-top: 15px;
-}
-
-.form-grupo-doble {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 15px;
+/* FORMULARIOS */
+.form-grupo {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
 }
 
 .form-campo {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
 }
 
-.form-campo label {
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 5px;
-    color: var(--texto-oscuro);
+.form-campo-full {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
 }
 
-.form-campo input, .form-campo select {
-    padding: 10px;
-    border: 1px solid #CCC;
-    border-radius: 4px;
-    font-size: 14px;
+label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: var(--texto-oscuro);
+}
+
+input, select {
+  padding: 10px;
+  border: 1px solid #CCC;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-family: 'Open Sans', sans-serif;
+}
+
+button {
+  background-color: var(--azul-oscuro);
+  color: var(--blanco);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #024b68;
 }
 
 .btn-guardar {
-    background-color: var(--azul-oscuro);
-    color: var(--blanco);
-    border: none;
-    padding: 12px 25px;
-    border-radius: 4px;
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-    font-size: 14px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
 }
-
-.btn-guardar:hover {
-    background-color: #024b68;
-}
-
 
 
 .tabla-contenedor {
-    width: 100%;
-    overflow-x: auto;
-    margin-top: 15px;
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 15px;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: var(--blanco);
-    font-size: 14px;
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--blanco);
+  font-size: 0.9rem;
 }
 
 th {
-    background-color: var(--azul-oscuro);
-    color: var(--blanco);
-    text-align: left;
-    padding: 12px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
+  background-color: var(--azul-oscuro);
+  color: var(--blanco);
+  text-align: left;
+  padding: 12px;
+  font-weight: 600;
 }
 
 td {
-    padding: 12px;
-    border-bottom: 1px solid var(--gris-fondo);
+  padding: 12px;
+  border-bottom: 1px solid var(--gris-fondo);
 }
 
 tr:hover {
-    background-color: #F4F7F9;
+  background-color: #F4F7F9;
 }
 
-/* Badges / Etiquetas de Estado */
+
 .badge {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 600;
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
 }
 
 .badge-alta {
-    background-color: var(--verde-alta);
-    color: var(--texto-alta);
+  background-color: var(--verde-alta);
+  color: var(--texto-alta);
 }
 
 .badge-observacion {
-    background-color: var(--amarillo-obs);
-    color: var(--texto-obs);
+  background-color: var(--amarillo-obs);
+  color: var(--texto-obs);
 }
 
 .btn-detalles {
-    background-color: var(--azul-claro);
-    color: var(--blanco);
-    padding: 5px 10px;
-    font-size: 12px;
-    border-radius: 4px;
+  background-color: var(--azul-claro);
+  color: var(--blanco);
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  border-radius: 4px;
 }
 
 
-
 footer {
-    text-align: center;
-    padding: 20px;
-    font-size: 12px;
-    color: #555;
-    margin-top: 40px;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.85rem;
+  color: #666;
+  background-color: #E2E8EC;
+  margin-top: auto;
 }
