@@ -78,4 +78,62 @@ footer {
     color #555;
     margin-top: 40px;
 }
-    
+ 
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+
+    width: 100%;
+}
+
+
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--blanco, #FFFFFF);
+    font-size: 14px;
+}
+
+th {
+    background-color: var(--azul-oscuro, #03658C);
+    color: var(--blanco, #FFFFFF);
+    text-align: left;
+    padding: 12px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid var(--gris-fondo, #D9E2E8);
+}
+
+tr:hover {
+    background-color: #F4F7F9;
+}
+
+/* Badges / Etiquetas de estado de salud */
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-alta {
+    background-color: #E2F0D9;
+    color: #385723;
+}
+
+.badge-observacion {
+    background-color: #FFF2CC;
+    color: #B25900;
+} 
