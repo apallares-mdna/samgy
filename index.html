@@ -4,232 +4,176 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SAMGY - Sistema de Gestión de Enfermería Escolar</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    body {
-      background-color: #e6eef3;
-      color: #333;
-    }
-
-    header {
-      background-color: #00668c;
-      color: white;
-      text-align: center;
-      padding: 30px 20px;
-    }
-
-    header h1 {
-      font-size: 2.5rem;
-      letter-spacing: 2px;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      font-size: 1.1rem;
-      opacity: 0.9;
-      margin-top: 4px;
-    }
-
-    nav {
-      background-color: #004d69;
-      padding: 12px 0;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      justify-content: center;
-      gap: 25px;
-    }
-
-    nav ul li a {
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: color 0.3s ease;
-    }
-
-    nav ul li a:hover {
-      color: #a3e0ff;
-    }
-
-    main {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 8px;
-      padding: 25px;
-      margin-bottom: 25px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    }
-
-    h2 {
-      color: #004d69;
-      margin-bottom: 15px;
-      font-size: 1.5rem;
-    }
-
-    p {
-      margin-bottom: 15px;
-      color: #555;
-    }
-
-    .search-box {
-      display: flex;
-      gap: 10px;
-      max-width: 500px;
-    }
-
-    .search-box input[type="text"] {
-      flex: 1;
-      padding: 10px 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 0.95rem;
-      outline: none;
-    }
-
-    .search-box input[type="text"]:focus {
-      border-color: #00668c;
-    }
-
-    .search-box button {
-      background-color: #00668c;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background-color 0.3s;
-    }
-
-    .search-box button:hover {
-      background-color: #004d69;
-    }
-
-    .status-list {
-      list-style: none;
-    }
-
-    .status-list li {
-      padding: 8px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .status-list li:last-child {
-      border-bottom: none;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 0.85rem;
-      color: #666;
-      margin-top: 40px;
-    }
-  </style>
+  
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+ 
   <header>
     <h1>SAMGY</h1>
     <p>Sistema de Gestión de Enfermería Escolar</p>
     <p><strong>Enfermería Activa</strong></p>
   </header>
 
+
   <nav>
     <ul>
-      <li><a href="#">Inicio</a></li>
-      <li><a href="#">Buscar Estudiante</a></li>
-      <li><a href="#">Nuevo Registro</a></li>
+      <li><a href="#" onclick="mostrarSeccion('')">Inicio</a></li>
+      <li><a href="#atencion" onclick="mostrarSeccion('atencion')">Registrar Atención</a></li>
+      <li><a href="#registro" onclick="mostrarSeccion('registro')">Nuevo Estudiante</a></li>
+      <li><a href="#historial" onclick="mostrarSeccion('historial')">Historial</a></li>
     </ul>
   </nav>
 
   <main>
+  
     <section class="card">
       <h2>Consulta Rápida de Estudiantes</h2>
-      <p>Ingresa el documento o nombre del estudiante para ver su ficha médica básica.</p>
+      <p>Ingresa el documento o nombre del estudiante para verificar su expediente en la base de datos.</p>
       <div class="search-box">
-        <input type="text" placeholder="Ej: Laura Martínez o N° Doc">
-        <button type="button">Buscar</button>
+        <input type="text" id="inputBusqueda" placeholder="Ej: Laura Martínez o N° Doc">
+        <button type="button" onclick="buscarEstudiante()">Buscar</button>
       </div>
     </section>
+
+    
     <section class="card">
       <h2>Estado del Sistema</h2>
       <ul class="status-list">
-        <li>Estudiantes registrados en la base de datos: <strong>0</strong></li>
-        <li>Atenciones realizadas hoy: <strong>0</strong></li>
+        <li>Estudiantes registrados en la base de datos: <strong id="total-estudiantes">2</strong></li>
+        <li>Atenciones realizadas hoy: <strong id="total-atenciones">2</strong></li>
       </ul>
+    </section>
+
+    
+    <section id="historial" class="card">
+      <h2>Historial de Atenciones del Día</h2>
+      <p>Registro continuo de los estudiantes atendidos durante la jornada.</p>
+      <div class="tabla-contenedor">
+        <table>
+          <thead>
+            <tr>
+              <th>Estudiante</th>
+              <th>Grado</th>
+              <th>Motivo / Síntoma</th>
+              <th>Estado</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-cuerpo">
+            <tr>
+              <td>Laura Martínez</td>
+              <td>9° B</td>
+              <td>Cefalea (Dolor de cabeza)</td>
+              <td><span class="badge badge-alta">Alta</span></td>
+              <td><button type="button" class="btn-detalles" onclick="verDetalles('Laura Martínez', '9° B', 'Cefalea', 'Dado de alta tras 20 min de reposo.')">Ficha</button></td>
+            </tr>
+            <tr>
+              <td>Mateo Gómez</td>
+              <td>6° A</td>
+              <td>Fiebre leve (37.8 °C)</td>
+              <td><span class="badge badge-observacion">Observación</span></td>
+              <td><button type="button" class="btn-detalles" onclick="verDetalles('Mateo Gómez', '6° A', 'Fiebre leve', 'En espera de llamado a acudiente.')">Ficha</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+   
+    <section id="registro" class="card" style="display: none;">
+      <h2>Registrar Nuevo Estudiante</h2>
+      <form id="form-estudiante" onsubmit="addStudent(event)">
+        <div class="form-grupo">
+          <div class="form-campo">
+            <label for="doc"><b>Documento de Identidad*</b></label>
+            <input type="text" id="doc" required placeholder="Ej: 1098765432">
+          </div>
+          <div class="form-campo">
+            <label for="nombre"><b>Nombre Completo*</b></label>
+            <input type="text" id="nombre" required placeholder="Ej: Laura Martínez">
+          </div>
+        </div>
+
+        <div class="form-grupo">
+          <div class="form-campo">
+            <label for="grado"><b>Grado/Curso*</b></label>
+            <input type="text" id="grado" required placeholder="Ej: 8°A">
+          </div>
+          <div class="form-campo">
+            <label for="alergias"><b>Alergias / Condiciones</b></label>
+            <input type="text" id="alergias" placeholder="Ej: Penicilina, Asma, Ninguna">
+          </div>
+        </div>
+
+        <button type="submit" class="btn-guardar">Guardar Estudiante</button>
+      </form>
+    </section>
+
+   
+    <section id="atencion" class="card" style="display: none;">
+      <h2>Registrar Atención Médica</h2>
+      <form id="form-atencion" onsubmit="addAttention(event)">
+        <div class="form-campo-full">
+          <label for="select-estudiante"><b>Seleccionar Estudiante*</b></label>
+          <select id="select-estudiante" required>
+            <option value="">-- Seleccione un estudiante --</option>
+            <option value="Laura Martínez">Laura Martínez (9° B)</option>
+            <option value="Mateo Gómez">Mateo Gómez (6° A)</option>
+          </select>
+        </div>
+
+        <div class="form-campo-full">
+          <label for="motivo"><b>Motivo de Consulta*</b></label>
+          <input type="text" id="motivo" required placeholder="Ej: Dolor de cabeza, Caída en patio">
+        </div>
+
+        <div class="form-campo-full">
+          <label for="estado-atencion"><b>Estado del Paciente*</b></label>
+          <select id="estado-atencion">
+            <option value="Alta">Dado de Alta</option>
+            <option value="Observación">En Observación</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-guardar">Registrar Atención</button>
+      </form>
     </section>
   </main>
 
   <footer>
-    Proyecto SAMGY - Yaricel Bayter, Mathias Hernández, Gabriela Martínez, Andrea Pallares, Sajoha Vasquez
+    Proyecto SAMGY &copy; 2026 — Yaricel Bayter, Mathias Hernández, Gabriela Martínez, Andrea Pallares, Sajoha Vasquez
   </footer>
 
-  <section id="registro" class="card" style="display: none;">
-    <h2>Registrar Nuevo Estudiante</h2>
-    <form id="form-estudiante" onsubmit="addStudent(event)">
-      <div style="display: flex; gap: 15px; margin-bottom: 15px;">
-        <div style="flex: 1;">
-          <label for="doc"><b>Documento de Identidad*</b></label><br>
-          <input type="text" id="doc" required placeholder="Ej: 1098765432" style="width: 100%; padding: 8px; margin-top: 5px;">
-        </div>
-        <div style="flex: 1;">
-          <label for="nombre"><b>Nombre Completo*</b></label><br>
-          <input type="text" id="nombre" required placeholder="Ej: Laura Martínez" style="width: 100%; padding: 8px; margin-top: 5px;">
-        </div>
-      </div>
-
-      <div style="display: flex; gap: 15px; margin-bottom: 15px;">
-        <div style="flex: 1;">
-          <label for="grado"><b>Grado/Curso*</b></label><br>
-          <input type="text" id="grado" required placeholder="Ej: 8°A" style="width: 100%; padding: 8px; margin-top: 5px;">
-        </div>
-        <div style="flex: 1;">
-          <label for="alergias"><b>Alergias / Condiciones</b></label><br>
-          <input type="text" id="alergias" placeholder="Ej: Penicilina, Ninguna" style="width: 100%; padding: 8px; margin-top: 5px;">
-        </div>
-      </div>
-
-      <button type="submit" style="background-color: #00668c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">Guardar Estudiante</button>
-    </form>
-  </section>
-
-  <section id="atencion" class="card" style="display: none;">
-    <h2>Registrar Atención Médica</h2>
-    <form id="form-atencion" onsubmit="addAttention(event)">
-      <div style="margin-bottom: 15px;">
-        <label for="select-estudiante"><b>Seleccionar Estudiante*</b></label><br>
-        <select id="select-estudiante" required style="width: 100%; padding: 8px; margin-top: 5px;">
-          <option value="">-- Seleccione un estudiante --</option>
-        </select>
-      </div>
-
-      <div style="margin-bottom: 15px;">
-        <label for="motivo"><b>Motivo de Consulta*</b></label><br>
-        <input type="text" id="motivo" required placeholder="Ej: Dolor de cabeza, Caída en patio" style="width: 100%; padding: 8px; margin-top: 5px;">
-      </div>
-
-      <button type="submit" style="background-color: #00668c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">Registrar Atención</button>
-    </form>
-  </section>
+  
   <script>
-    let estudiantes = [];
-    let contadorAtenciones = 0;
+    let estudiantes = [
+      { doc: '1001', nombre: 'Laura Martínez', grado: '9° B', alergias: 'Ninguna' },
+      { doc: '1002', nombre: 'Mateo Gómez', grado: '6° A', alergias: 'Polen' }
+    ];
+    let contadorAtenciones = 2;
 
+   
+    function mostrarSeccion(idSeccion) {
+      document.getElementById('registro').style.display = 'none';
+      document.getElementById('atencion').style.display = 'none';
+
+      if (idSeccion) {
+        const elemento = document.getElementById(idSeccion);
+        if (elemento) {
+          elemento.style.display = 'block';
+          elemento.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+
+   
     function addStudent(e) {
       e.preventDefault();
       const doc = document.getElementById('doc').value;
@@ -239,25 +183,58 @@
 
       estudiantes.push({ doc, nombre, grado, alergias });
 
-      const totalEst = document.querySelectorAll('main p strong')[0];
-      if (totalEst) totalEst.innerText = estudiantes.length;
+      
+      document.getElementById('total-estudiantes').innerText = estudiantes.length;
 
+    
       const select = document.getElementById('select-estudiante');
-      select.innerHTML += `<option value="${doc}">${nombre} (${grado})</option>`;
+      select.innerHTML += `<option value="${nombre}">${nombre} (${grado})</option>`;
 
       document.getElementById('form-estudiante').reset();
-      alert('Estudiante registrado exitosamente.');
+      alert(' Estudiante registrado exitosamente en SAMGY.');
     }
 
+  
     function addAttention(e) {
       e.preventDefault();
-      contadorAtenciones++;
+      const estudianteNombre = document.getElementById('select-estudiante').value;
+      const motivo = document.getElementById('motivo').value;
+      const estado = document.getElementById('estado-atencion').value;
 
-      const totalAtenc = document.querySelectorAll('main p strong')[1];
-      if (totalAtenc) totalAtenc.innerText = contadorAtenciones;
+      contadorAtenciones++;
+      document.getElementById('total-atenciones').innerText = contadorAtenciones;
+
+    
+      const tabla = document.getElementById('tabla-cuerpo');
+      const badgeClase = estado === 'Alta' ? 'badge-alta' : 'badge-observacion';
+      
+      const nuevaFila = document.createElement('tr');
+      nuevaFila.innerHTML = `
+        <td>${estudianteNombre}</td>
+        <td>Registrado</td>
+        <td>${motivo}</td>
+        <td><span class="badge ${badgeClase}">${estado}</span></td>
+        <td><button type="button" class="btn-detalles" onclick="verDetalles('${estudianteNombre}', 'Registrado', '${motivo}', 'Atención ingresada en la jornada.')">Ficha</button></td>
+      `;
+      tabla.appendChild(nuevaFila);
 
       document.getElementById('form-atencion').reset();
-      alert('Atención de enfermería registrada correctamente.');
+      alert(' Atención de enfermería registrada correctamente.');
+    }
+
+    
+    function buscarEstudiante() {
+      const query = document.getElementById('inputBusqueda').value.trim();
+      if (query === '') {
+        alert('Por favor escribe un nombre o documento para buscar.');
+      } else {
+        alert(` Buscando coincidencias para: "${query}" en el sistema SAMGY...`);
+      }
+    }
+
+  
+    function verDetalles(nombre, grado, motivo, notas) {
+      alert(` FICHA DE ATENCIÓN - SAMGY\n\nEstudiante: ${nombre}\nGrado: ${grado}\nMotivo: ${motivo}\nNotas: ${notas}`);
     }
   </script>
 </body>
