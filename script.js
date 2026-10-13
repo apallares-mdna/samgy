@@ -6,13 +6,20 @@ const API_URL = 'http://localhost:5000/api';
 
 function App() {
   const [seccionActiva, setSeccionActiva] = useState('inicio');
-  const [menuAbierto, setMenuAbierto] = useState(false);
-
+  const [sidebarAbierto, setSidebarAbierto] = useState(false);
   const [estudiantes, setEstudiantes] = useState([]);
   const [atenciones, setAtenciones] = useState([]);
+
+  // Formularios y Búsqueda
   const [queryBusqueda, setQueryBusqueda] = useState('');
-  const [formEstudiante, setFormEstudiante] = useState({ doc: '', nombre: '', grado: '', alergias: '' });
-  const [formAtencion, setFormAtencion] = useState({ estudiante: '', motivo: '', estado: 'Alta' });
+  const [formEstudiante, setFormEstudiante] = useState({ 
+    doc: '', nombre: '', grado: '', alergias: '', acudiente: '', telefonoAcudiente: '' 
+  });
+  const [formAtencion, setFormAtencion] = useState({ 
+    estudiante: '', motivo: '', estado: 'Alta', observaciones: '' 
+  });
+
+  const [estudianteSeleccionado, setEstudianteSeleccionado] = useState(null);
 
   useEffect(() => {
     cargarEstudiantes();
@@ -36,12 +43,13 @@ function App() {
       console.error('Error al cargar atenciones:', err);
     }
   };
+
   const handleAddStudent = async (e) => {
     e.preventDefault();
     try {
       await axios.post(`${API_URL}/estudiantes`, formEstudiante);
-      alert('Estudiante guardado exitosamente.');
-      setFormEstudiante({ doc: '', nombre: '', grado: '', alergias: '' });
+      alert('Estudiante registrado exitosamente en SAMGY.');
+      setFormEstudiante({ doc: '', nombre: '', grado: '', alergias: '', acudiente: '', telefonoAcudiente: '' });
       cargarEstudiantes();
     } catch (err) {
       alert('Error: ' + (err.response?.data?.error || 'No se pudo registrar el estudiante.'));
@@ -60,120 +68,148 @@ function App() {
       estudiante: formAtencion.estudiante,
       grado: estInfo ? estInfo.grado : 'Registrado',
       motivo: formAtencion.motivo,
-      estado: formAtencion.estado
+      estado: formAtencion.estado,
+      notas: formAtencion.observaciones || 'Atención en enfermería.'
     };
 
     try {
       await axios.post(`${API_URL}/atenciones`, nuevaAtencion);
       alert('Atención médica registrada correctamente.');
-      setFormAtencion({ estudiante: '', motivo: '', estado: 'Alta' });
+      setFormAtencion({ estudiante: '', motivo: '', estado: 'Alta', observaciones: '' });
       cargarAtenciones();
     } catch (err) {
       alert('Error al registrar la atención médica.');
     }
   };
-  const handleBuscar = () => {
-    if (!queryBusqueda.trim()) return;
-    const res = estudiantes.find(e => 
-      e.nombre.toLowerCase().includes(queryBusqueda.toLowerCase().trim()) || e.doc.includes(queryBusqueda.trim())
-    );
 
-    if (res) {
-      alert(`EXPEDIENTE SAMGY:\n\nNombre: ${res.nombre}\nGrado: ${res.grado}\nDocumento: ${res.doc}\nAlergias: ${res.alergias}`);
-    } else {
-      alert(`No se encontraron registros para: "${queryBusqueda}".`);
-    }
+  const abrirFichaEstudiante = (nombreEstudiante) => {
+    const est = estudiantes.find(e => e.nombre.toLowerCase() === nombreEstudiante.toLowerCase());
+    const historialEstudiante = atenciones.filter(a => a.estudiante.toLowerCase() === nombreEstudiante.toLowerCase());
+    
+    setEstudianteSeleccionado({
+      info: est || { nombre: nombreEstudiante, grado: 'N/A', doc: 'N/A', alergias: 'Sin registros', acudiente: 'N/A', telefonoAcudiente: 'N/A' },
+      historial: historialEstudiante
+    });
+  };
+
+  const cambiarSeccion = (seccion) => {
+    setSeccionActiva(seccion);
+    setSidebarAbierto(false);
   };
 
   return (
     <div className="app-container">
-      {/* ENCABEZADO */}
+      {/* ENCABEZADO CON BOTÓN 3 RAYITAS */}
       <header>
-        <h1>SAMGY</h1>
-        <p>Sistema de Gestión de Enfermería Escolar</p>
+        <button 
+          className="btn-menu-hamburguesa" 
+          onClick={() => setSidebarAbierto(true)}
+        >
+          ☰
+        </button>
+        <div className="header-title-container">
+          <h1>SAMGY</h1>
+          <p>Sistema de Gestión de Enfermería Escolar</p>
+        </div>
       </header>
 
-      <nav>
-        <div className="nav-header">
-          <button className="hamburger-btn" onClick={() => setMenuAbierto(!menuAbierto)}>
-            Menu
+
+      {sidebarAbierto && (
+        <div className="sidebar-overlay" onClick={() => setSidebarAbierto(false)}></div>
+      )}
+
+      <div className={`sidebar-panel ${sidebarAbierto ? 'abierto' : ''}`}>
+        <div className="sidebar-header">
+          <h2>Menú Principal</h2>
+          <button className="btn-cerrar-sidebar" onClick={() => setSidebarAbierto(false)}>
+            ✕
           </button>
         </div>
-        <ul className={menuAbierto ? 'menu-visible' : 'menu-oculto'}>
+        <ul className="sidebar-menu">
           <li>
             <button 
-              className={`nav-link ${seccionActiva === 'inicio' ? 'activo' : ''}`} 
-              onClick={() => { setSeccionActiva('inicio'); setMenuAbierto(false); }}
+              className={`sidebar-link ${seccionActiva === 'inicio' ? 'activo' : ''}`}
+              onClick={() => cambiarSeccion('inicio')}
             >
-              Inicio
+              Inicio / Búsqueda
             </button>
           </li>
           <li>
             <button 
-              className={`nav-link ${seccionActiva === 'atencion' ? 'activo' : ''}`} 
-              onClick={() => { setSeccionActiva('atencion'); setMenuAbierto(false); }}
+              className={`sidebar-link ${seccionActiva === 'atencion' ? 'activo' : ''}`}
+              onClick={() => cambiarSeccion('atencion')}
             >
               Registrar Atención
             </button>
           </li>
           <li>
             <button 
-              className={`nav-link ${seccionActiva === 'registro' ? 'activo' : ''}`} 
-              onClick={() => { setSeccionActiva('registro'); setMenuAbierto(false); }}
+              className={`sidebar-link ${seccionActiva === 'registro' ? 'activo' : ''}`}
+              onClick={() => cambiarSeccion('registro')}
             >
               Nuevo Estudiante
             </button>
           </li>
           <li>
             <button 
-              className={`nav-link ${seccionActiva === 'historial' ? 'activo' : ''}`} 
-              onClick={() => { setSeccionActiva('historial'); setMenuAbierto(false); }}
+              className={`sidebar-link ${seccionActiva === 'historial' ? 'activo' : ''}`}
+              onClick={() => cambiarSeccion('historial')}
             >
-              Historial
+              Historial Completo
             </button>
           </li>
         </ul>
-      </nav>
+      </div>
+
+    
       <main>
-        {(seccionActiva === 'inicio' || seccionActiva === 'historial') && (
+        {seccionActiva === 'inicio' && (
           <>
             <section className="card">
               <h2>Consulta Rápida de Estudiantes</h2>
-              <p>Ingresa el documento o nombre del estudiante para consultar la base de datos.</p>
+              <p>Ingresa el nombre del estudiante para ver su expediente.</p>
               <div className="search-box">
                 <input 
                   type="text" 
-                  placeholder="Ej: Laura Martínez o N Doc"
+                  placeholder="Ej: Laura Martínez"
                   value={queryBusqueda}
                   onChange={(e) => setQueryBusqueda(e.target.value)}
                 />
-                <button type="button" className="btn-primary" onClick={handleBuscar}>Buscar</button>
+                <button type="button" className="btn-primary" onClick={() => abrirFichaEstudiante(queryBusqueda)}>
+                  Buscar Ficha
+                </button>
               </div>
             </section>
 
             <section className="card">
-              <h2>Estado del Sistema</h2>
+              <h2>Estado del Sistema de Enfermería</h2>
               <ul className="status-list">
                 <li>Estudiantes registrados: <strong>{estudiantes.length}</strong></li>
                 <li>Atenciones realizadas: <strong>{atenciones.length}</strong></li>
               </ul>
             </section>
+          </>
+        )}
 
-            <section className="card">
-              <h2>Historial de Atenciones Médicas</h2>
-              <div className="tabla-contenedor">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Estudiante</th>
-                      <th>Grado</th>
-                      <th>Motivo / Síntoma</th>
-                      <th>Estado</th>
-                      <th>Acción</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {atenciones.map((item) => (
+        {seccionActiva === 'historial' && (
+          <section className="card">
+            <h2>Historial de Atenciones Médicas</h2>
+            <div className="tabla-contenedor">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Estudiante</th>
+                    <th>Grado</th>
+                    <th>Motivo / Síntoma</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {atenciones.length === 0 ? (
+                    <tr><td colSpan="5" style={{ textAlign: 'center' }}>No hay atenciones registradas.</td></tr>
+                  ) : (
+                    atenciones.map((item) => (
                       <tr key={item._id || item.id}>
                         <td>{item.estudiante}</td>
                         <td>{item.grado}</td>
@@ -187,21 +223,20 @@ function App() {
                           <button 
                             type="button" 
                             className="btn-detalles"
-                            onClick={() => alert(`FICHA MÉDICA DE ENFERMERÍA\n\nEstudiante: ${item.estudiante}\nGrado: ${item.grado}\nMotivo: ${item.motivo}\nNotas: ${item.notas || 'Sin observaciones.'}`)}
+                            onClick={() => abrirFichaEstudiante(item.estudiante)}
                           >
-                            Ficha
+                            Ver Ficha
                           </button>
                         </td>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </section>
-          </>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </section>
         )}
 
-     
         {seccionActiva === 'registro' && (
           <section className="card">
             <h2>Registrar Nuevo Estudiante</h2>
@@ -241,7 +276,7 @@ function App() {
                   />
                 </div>
                 <div className="form-campo">
-                  <label>Alergias / Condiciones</label>
+                  <label>Alergias / Condiciones Médicas</label>
                   <input 
                     type="text" 
                     placeholder="Ej: Penicilina, Ninguna"
@@ -251,7 +286,28 @@ function App() {
                 </div>
               </div>
 
-              <button type="submit" className="btn-primary btn-guardar">Guardar en Base de Datos</button>
+              <div className="form-grupo">
+                <div className="form-campo">
+                  <label>Acudiente / Tutor</label>
+                  <input 
+                    type="text" 
+                    placeholder="Ej: María Rodríguez"
+                    value={formEstudiante.acudiente}
+                    onChange={(e) => setFormEstudiante({...formEstudiante, acudiente: e.target.value})}
+                  />
+                </div>
+                <div className="form-campo">
+                  <label>Teléfono Contacto</label>
+                  <input 
+                    type="text" 
+                    placeholder="Ej: 3001234567"
+                    value={formEstudiante.telefonoAcudiente}
+                    onChange={(e) => setFormEstudiante({...formEstudiante, telefonoAcudiente: e.target.value})}
+                  />
+                </div>
+              </div>
+
+              <button type="submit" className="btn-primary btn-guardar">Guardar Estudiante</button>
             </form>
           </section>
         )}
@@ -261,7 +317,7 @@ function App() {
             <h2>Registrar Atención Médica</h2>
             <form onSubmit={handleAddAttention}>
               <div className="form-campo-full">
-                <label>Seleccionar Estudiante (Menú Desplegable Dinámico)*</label>
+                <label>Seleccionar Estudiante*</label>
                 <select 
                   className="select-desplegable"
                   required
@@ -282,9 +338,19 @@ function App() {
                 <input 
                   type="text" 
                   required 
-                  placeholder="Ej: Dolor de cabeza, Caída en patio"
+                  placeholder="Ej: Dolor de cabeza, Caída"
                   value={formAtencion.motivo}
                   onChange={(e) => setFormAtencion({...formAtencion, motivo: e.target.value})}
+                />
+              </div>
+
+              <div className="form-campo-full">
+                <label>Observaciones</label>
+                <input 
+                  type="text" 
+                  placeholder="Ej: Reposo de 20 minutos"
+                  value={formAtencion.observaciones}
+                  onChange={(e) => setFormAtencion({...formAtencion, observaciones: e.target.value})}
                 />
               </div>
 
@@ -303,10 +369,47 @@ function App() {
             </form>
           </section>
         )}
+
+        
+        {estudianteSeleccionado && (
+          <div className="modal-overlay">
+            <div className="modal-contenido card">
+              <h2>Ficha Clínica del Estudiante</h2>
+              <p><strong>Nombre:</strong> {estudianteSeleccionado.info.nombre}</p>
+              <p><strong>Grado:</strong> {estudianteSeleccionado.info.grado}</p>
+              <p><strong>Documento:</strong> {estudianteSeleccionado.info.doc}</p>
+              <p><strong>Alergias:</strong> {estudianteSeleccionado.info.alergias}</p>
+              <p><strong>Acudiente:</strong> {estudianteSeleccionado.info.acudiente || 'N/A'}</p>
+              <p><strong>Teléfono:</strong> {estudianteSeleccionado.info.telefonoAcudiente || 'N/A'}</p>
+
+              <h3 style={{ marginTop: '15px', color: '#03658C' }}>Historial de Atenciones</h3>
+              {estudianteSeleccionado.historial.length === 0 ? (
+                <p>Sin registros previas.</p>
+              ) : (
+                <ul className="status-list">
+                  {estudianteSeleccionado.historial.map((h, i) => (
+                    <li key={i}>
+                      <strong>Motivo:</strong> {h.motivo} | <strong>Estado:</strong> {h.estado}
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              <button 
+                type="button" 
+                className="btn-primary" 
+                style={{ marginTop: '15px' }}
+                onClick={() => setEstudianteSeleccionado(null)}
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
+        )}
       </main>
 
       <footer>
-        Proyecto SAMGY — Yaricel Bayter, Mathias Hernández, Gabriela Martínez, Andrea Pallares, Sajoha Vasquez[cite: 10]
+        Proyecto SAMGY — Yaricel Bayter, Mathias Hernández, Gabriela Martínez, Andrea Pallares, Sajoha Vasquez
       </footer>
     </div>
   );
