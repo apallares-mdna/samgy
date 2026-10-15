@@ -9,12 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
+  <style>
 <body>
-  <div id="root"></div>
-</body>
-</html>
-<style>
-      * {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
@@ -93,7 +89,7 @@
         justify-content: center;
       }
 
-      /* Menú Desplegable Sidebar */
+      
       .sidebar {
         position: fixed;
         top: 0;
@@ -189,3 +185,54 @@
         color: #333;
       }
     </style>
+  
+  <div id="mySidebar" class="sidebar">
+    <button class="close-btn" onclick="toggleMenu()">&times;</button>
+    <a href="#">Inicio</a>
+    <a href="#">Mis Cursos</a>
+    <a href="#">Atenciones</a>
+    <a href="#">Estudiantes</a>
+    <a href="#">Configuración</a>
+  </div>
+
+  <header class="navbar">
+    <div class="logo-container">
+      <button class="menu-btn" onclick="toggleMenu()">&#9776;</button>
+      <div class="logo">SAMGY</div>
+    </div>
+    
+    <div class="search-box">
+      <input type="text" placeholder="Buscar...">
+    </div>
+
+    <div class="user-profile">
+      <span>Usuario</span>
+      <div class="user-avatar"> </div>
+    </div>
+  </header>
+  <main class="main-content">
+    <h1 class="welcome-title">¡BIENVENIDO!</h1>
+    <p class="welcome-subtitle">Elige tu curso y vamos a crear.</p>
+
+    <section class="cards-container">
+      <div class="card card-1">
+        <h2 style="font-size: 60px; color: #ffeb3b;">1</h2>
+        <button class="card-btn">Primero</button>
+      </div>
+
+      <div class="card card-2">
+        <h2 style="font-size: 60px; color: #2ec4b6;">2</h2>
+        <button class="card-btn">Segundo</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function toggleMenu() {
+      const sidebar = document.getElementById("mySidebar");
+      sidebar.classList.toggle("open");
+    }
+  </script>
+
+</body>
+</html>
