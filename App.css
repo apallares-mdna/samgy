@@ -334,3 +334,7 @@ footer {
   background-color: #E2E8EC;
   margin-top: auto;
 }
+  .logo-container img{
+    mix-blend-mode: multiply;
+  }
+
