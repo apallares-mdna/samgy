@@ -7,10 +7,10 @@ const API_URL = 'http://localhost:5000/api';
 function App() {
   const [seccionActiva, setSeccionActiva] = useState('inicio');
   const [sidebarAbierto, setSidebarAbierto] = useState(false);
+
   const [estudiantes, setEstudiantes] = useState([]);
   const [atenciones, setAtenciones] = useState([]);
 
-  // Formularios y Búsqueda
   const [queryBusqueda, setQueryBusqueda] = useState('');
   const [formEstudiante, setFormEstudiante] = useState({ 
     doc: '', nombre: '', grado: '', alergias: '', acudiente: '', telefonoAcudiente: '' 
@@ -48,7 +48,7 @@ function App() {
     e.preventDefault();
     try {
       await axios.post(`${API_URL}/estudiantes`, formEstudiante);
-      alert('Estudiante registrado exitosamente en SAMGY.');
+      alert('Estudiante registrado exitosamente.');
       setFormEstudiante({ doc: '', nombre: '', grado: '', alergias: '', acudiente: '', telefonoAcudiente: '' });
       cargarEstudiantes();
     } catch (err) {
@@ -59,7 +59,7 @@ function App() {
   const handleAddAttention = async (e) => {
     e.preventDefault();
     if (!formAtencion.estudiante) {
-      alert('Por favor selecciona un estudiante del menú desplegable.');
+      alert('Por favor selecciona un estudiante.');
       return;
     }
 
@@ -69,16 +69,16 @@ function App() {
       grado: estInfo ? estInfo.grado : 'Registrado',
       motivo: formAtencion.motivo,
       estado: formAtencion.estado,
-      notas: formAtencion.observaciones || 'Atención en enfermería.'
+      notas: formAtencion.observaciones || 'Atencion en enfermeria.'
     };
 
     try {
       await axios.post(`${API_URL}/atenciones`, nuevaAtencion);
-      alert('Atención médica registrada correctamente.');
+      alert('Atencion medica registrada correctamente.');
       setFormAtencion({ estudiante: '', motivo: '', estado: 'Alta', observaciones: '' });
       cargarAtenciones();
     } catch (err) {
-      alert('Error al registrar la atención médica.');
+      alert('Error al registrar la atencion medica.');
     }
   };
 
@@ -99,20 +99,18 @@ function App() {
 
   return (
     <div className="app-container">
-      {/* ENCABEZADO CON BOTÓN 3 RAYITAS */}
       <header>
         <button 
           className="btn-menu-hamburguesa" 
           onClick={() => setSidebarAbierto(true)}
         >
-          ☰
+          &#9776;
         </button>
         <div className="header-title-container">
           <h1>SAMGY</h1>
-          <p>Sistema de Gestión de Enfermería Escolar</p>
+          <p>Sistema de Gestion de Enfermeria Escolar</p>
         </div>
       </header>
-
 
       {sidebarAbierto && (
         <div className="sidebar-overlay" onClick={() => setSidebarAbierto(false)}></div>
@@ -120,9 +118,9 @@ function App() {
 
       <div className={`sidebar-panel ${sidebarAbierto ? 'abierto' : ''}`}>
         <div className="sidebar-header">
-          <h2>Menú Principal</h2>
+          <h2>Menu Principal</h2>
           <button className="btn-cerrar-sidebar" onClick={() => setSidebarAbierto(false)}>
-            ✕
+            &#10005;
           </button>
         </div>
         <ul className="sidebar-menu">
@@ -131,7 +129,7 @@ function App() {
               className={`sidebar-link ${seccionActiva === 'inicio' ? 'activo' : ''}`}
               onClick={() => cambiarSeccion('inicio')}
             >
-              Inicio / Búsqueda
+              Inicio / Busqueda
             </button>
           </li>
           <li>
@@ -139,7 +137,7 @@ function App() {
               className={`sidebar-link ${seccionActiva === 'atencion' ? 'activo' : ''}`}
               onClick={() => cambiarSeccion('atencion')}
             >
-              Registrar Atención
+              Registrar Atencion
             </button>
           </li>
           <li>
@@ -161,17 +159,16 @@ function App() {
         </ul>
       </div>
 
-    
       <main>
         {seccionActiva === 'inicio' && (
           <>
             <section className="card">
-              <h2>Consulta Rápida de Estudiantes</h2>
+              <h2>Consulta Rapida de Estudiantes</h2>
               <p>Ingresa el nombre del estudiante para ver su expediente.</p>
               <div className="search-box">
                 <input 
                   type="text" 
-                  placeholder="Ej: Laura Martínez"
+                  placeholder="Ej: Laura Martinez"
                   value={queryBusqueda}
                   onChange={(e) => setQueryBusqueda(e.target.value)}
                 />
@@ -182,7 +179,7 @@ function App() {
             </section>
 
             <section className="card">
-              <h2>Estado del Sistema de Enfermería</h2>
+              <h2>Estado del Sistema de Enfermeria</h2>
               <ul className="status-list">
                 <li>Estudiantes registrados: <strong>{estudiantes.length}</strong></li>
                 <li>Atenciones realizadas: <strong>{atenciones.length}</strong></li>
@@ -193,16 +190,16 @@ function App() {
 
         {seccionActiva === 'historial' && (
           <section className="card">
-            <h2>Historial de Atenciones Médicas</h2>
+            <h2>Historial de Atenciones Medicas</h2>
             <div className="tabla-contenedor">
               <table>
                 <thead>
                   <tr>
                     <th>Estudiante</th>
                     <th>Grado</th>
-                    <th>Motivo / Síntoma</th>
+                    <th>Motivo / Sintoma</th>
                     <th>Estado</th>
-                    <th>Acción</th>
+                    <th>Accion</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -257,7 +254,7 @@ function App() {
                   <input 
                     type="text" 
                     required 
-                    placeholder="Ej: Laura Martínez"
+                    placeholder="Ej: Laura Martinez"
                     value={formEstudiante.nombre}
                     onChange={(e) => setFormEstudiante({...formEstudiante, nombre: e.target.value})}
                   />
@@ -276,7 +273,7 @@ function App() {
                   />
                 </div>
                 <div className="form-campo">
-                  <label>Alergias / Condiciones Médicas</label>
+                  <label>Alergias / Condiciones Medicas</label>
                   <input 
                     type="text" 
                     placeholder="Ej: Penicilina, Ninguna"
@@ -291,13 +288,13 @@ function App() {
                   <label>Acudiente / Tutor</label>
                   <input 
                     type="text" 
-                    placeholder="Ej: María Rodríguez"
+                    placeholder="Ej: Maria Rodriguez"
                     value={formEstudiante.acudiente}
                     onChange={(e) => setFormEstudiante({...formEstudiante, acudiente: e.target.value})}
                   />
                 </div>
                 <div className="form-campo">
-                  <label>Teléfono Contacto</label>
+                  <label>Telefono Contacto</label>
                   <input 
                     type="text" 
                     placeholder="Ej: 3001234567"
@@ -314,7 +311,7 @@ function App() {
 
         {seccionActiva === 'atencion' && (
           <section className="card">
-            <h2>Registrar Atención Médica</h2>
+            <h2>Registrar Atencion Medica</h2>
             <form onSubmit={handleAddAttention}>
               <div className="form-campo-full">
                 <label>Seleccionar Estudiante*</label>
@@ -338,7 +335,7 @@ function App() {
                 <input 
                   type="text" 
                   required 
-                  placeholder="Ej: Dolor de cabeza, Caída"
+                  placeholder="Ej: Dolor de cabeza, Caida"
                   value={formAtencion.motivo}
                   onChange={(e) => setFormAtencion({...formAtencion, motivo: e.target.value})}
                 />
@@ -361,26 +358,25 @@ function App() {
                   onChange={(e) => setFormAtencion({...formAtencion, estado: e.target.value})}
                 >
                   <option value="Alta">Dado de Alta</option>
-                  <option value="Observación">En Observación</option>
+                  <option value="Observacion">En Observacion</option>
                 </select>
               </div>
 
-              <button type="submit" className="btn-primary btn-guardar">Registrar Atención</button>
+              <button type="submit" className="btn-primary btn-guardar">Registrar Atencion</button>
             </form>
           </section>
         )}
 
-        
         {estudianteSeleccionado && (
           <div className="modal-overlay">
             <div className="modal-contenido card">
-              <h2>Ficha Clínica del Estudiante</h2>
+              <h2>Ficha Clinica del Estudiante</h2>
               <p><strong>Nombre:</strong> {estudianteSeleccionado.info.nombre}</p>
               <p><strong>Grado:</strong> {estudianteSeleccionado.info.grado}</p>
               <p><strong>Documento:</strong> {estudianteSeleccionado.info.doc}</p>
               <p><strong>Alergias:</strong> {estudianteSeleccionado.info.alergias}</p>
               <p><strong>Acudiente:</strong> {estudianteSeleccionado.info.acudiente || 'N/A'}</p>
-              <p><strong>Teléfono:</strong> {estudianteSeleccionado.info.telefonoAcudiente || 'N/A'}</p>
+              <p><strong>Telefono:</strong> {estudianteSeleccionado.info.telefonoAcudiente || 'N/A'}</p>
 
               <h3 style={{ marginTop: '15px', color: '#03658C' }}>Historial de Atenciones</h3>
               {estudianteSeleccionado.historial.length === 0 ? (
@@ -409,7 +405,7 @@ function App() {
       </main>
 
       <footer>
-        Proyecto SAMGY — Yaricel Bayter, Mathias Hernández, Gabriela Martínez, Andrea Pallares, Sajoha Vasquez
+        Proyecto SAMGY - Yaricel Bayter, Mathias Hernandez, Gabriela Martinez, Andrea Pallares, Sajoha Vasquez[cite: 10]
       </footer>
     </div>
   );
