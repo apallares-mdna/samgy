@@ -1,4 +1,3 @@
-
 :root {
   --azul-oscuro: #03658C;
   --azul-claro: #4FB3D9;
@@ -38,68 +37,120 @@ h1, h2, h3, th {
 header {
   background-color: var(--azul-oscuro);
   color: var(--blanco);
-  padding: 20px;
-  text-align: center;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+.header-title-container {
+  text-align: center;
+  flex: 1;
+}
+
 header h1 {
-  font-size: 2.2rem;
+  font-size: 1.8rem;
   letter-spacing: 2px;
 }
 
 header p {
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   opacity: 0.9;
 }
 
-/* NAVEGACIÓN Y MENÚ DESPLEGABLE */
-nav {
-  background-color: #024b68;
-  position: relative;
-}
-
-.nav-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-}
-
-.hamburger-btn {
-  display: none;
-  background: transparent;
-  color: var(--blanco);
-  border: 1px solid var(--blanco);
-  font-size: 0.95rem;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-nav ul {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  padding: 10px 0;
-}
-
-nav button.nav-link {
+.btn-menu-hamburguesa {
   background: transparent;
   color: var(--blanco);
   border: none;
-  font-weight: 600;
-  font-size: 0.95rem;
-  padding: 8px 16px;
-  border-radius: 4px;
+  font-size: 1.8rem;
   cursor: pointer;
-  transition: background 0.3s ease;
+  padding: 5px 10px;
+  border-radius: 4px;
 }
 
-nav button.nav-link:hover, nav button.nav-link.activo {
-  background-color: var(--azul-claro);
+.btn-menu-hamburguesa:hover {
+  background-color: rgba(255, 255, 255, 0.15);
 }
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+}
+
+.sidebar-panel {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100vh;
+  background-color: #024b68;
+  color: var(--blanco);
+  z-index: 300;
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.2);
+  transition: left 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-panel.abierto {
+  left: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--azul-oscuro);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-header h2 {
+  font-size: 1.2rem;
+  color: var(--blanco);
+}
+
+.btn-cerrar-sidebar {
+  background: transparent;
+  color: var(--blanco);
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sidebar-link {
+  width: 100%;
+  background: transparent;
+  color: var(--blanco);
+  border: none;
+  text-align: left;
+  padding: 15px 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, padding-left 0.2s;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.sidebar-link:hover, .sidebar-link.activo {
+  background-color: var(--azul-claro);
+  padding-left: 32px;
+}
+
 main {
   max-width: 900px;
   width: 90%;
@@ -127,7 +178,6 @@ main {
   color: #555;
 }
 
-/* BUSCADOR */
 .search-box {
   display: flex;
   gap: 10px;
@@ -210,7 +260,6 @@ button.btn-primary:hover {
   padding: 12px;
 }
 
-/* TABLAS Y BADGES */
 .tabla-contenedor {
   width: 100%;
   overflow-x: auto;
@@ -244,15 +293,8 @@ td {
   font-weight: 600;
 }
 
-.badge-alta { 
-  background-color: var(--verde-alta); 
-  color: var(--texto-alta); 
-}
-
-.badge-observacion { 
-  background-color: var(--amarillo-obs); 
-  color: var(--texto-obs); 
-}
+.badge-alta { background-color: var(--verde-alta); color: var(--texto-alta); }
+.badge-observacion { background-color: var(--amarillo-obs); color: var(--texto-obs); }
 
 .btn-detalles {
   background-color: var(--azul-claro);
@@ -264,6 +306,26 @@ td {
   font-weight: 600;
 }
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-contenido {
+  max-width: 600px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
 footer {
   text-align: center;
   padding: 20px;
@@ -271,22 +333,4 @@ footer {
   color: #666;
   background-color: #E2E8EC;
   margin-top: auto;
-}
-
-@media (max-width: 768px) {
-  .hamburger-btn {
-    display: block;
-  }
-  
-  nav ul.menu-oculto {
-    display: none;
-  }
-
-  nav ul.menu-visible {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    align-items: center;
-    padding-bottom: 15px;
-  }
 }
