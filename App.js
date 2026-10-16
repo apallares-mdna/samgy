@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Menu from './menu';
 import './App.css';
 
 const API_URL = 'http://localhost:5000/api';
@@ -20,6 +21,42 @@ function App() {
   });
 
   const [estudianteSeleccionado, setEstudianteSeleccionado] = useState(null);
+
+  // Galería de imágenes / Carrusel
+  const [slideActual, setSlideActual] = useState(0);
+  const slidesGaleria = [
+    {
+      titulo: "Énfasis en Inglés",
+      texto: "Nuestra propuesta fortalece la enseñanza del idioma inglés con material interactivo y plataformas comprobadas.",
+      imagen: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=80"
+    },
+    {
+      titulo: "Proyecto SAMGY",
+      texto: "Sistema automatizado de gestión de enfermería diseñado para el bienestar, registro y cuidado integral de nuestros estudiantes.",
+      imagen: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=80"
+    },
+    {
+      titulo: "Ambiente Escolar Seguro",
+      texto: "Espacios modernos y personal médico capacitado para brindar una atención inmediata y oportuna a la comunidad educativa.",
+      imagen: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=80"
+    }
+  ];
+
+  // Cambio automático cada 5 segundos
+  useEffect(() => {
+    const temporizador = setInterval(() => {
+      siguienteSlide();
+    }, 5000);
+    return () => clearInterval(temporizador);
+  }, [slideActual]);
+
+  const siguienteSlide = () => {
+    setSlideActual((prev) => (prev === slidesGaleria.length - 1 ? 0 : prev + 1));
+  };
+
+  const anteriorSlide = () => {
+    setSlideActual((prev) => (prev === 0 ? slidesGaleria.length - 1 : prev - 1));
+  };
 
   useEffect(() => {
     cargarEstudiantes();
@@ -52,7 +89,7 @@ function App() {
       setFormEstudiante({ doc: '', nombre: '', grado: '', alergias: '', acudiente: '', telefonoAcudiente: '' });
       cargarEstudiantes();
     } catch (err) {
-      alert('Error: ' + (err.response?.data?.error || 'No se pudo registrar el estudiante.'));
+      alert('Error al registrar estudiante.');
     }
   };
 
@@ -69,20 +106,21 @@ function App() {
       grado: estInfo ? estInfo.grado : 'Registrado',
       motivo: formAtencion.motivo,
       estado: formAtencion.estado,
-      notas: formAtencion.observaciones || 'Atencion en enfermeria.'
+      notas: formAtencion.observaciones || 'Atención en enfermería.'
     };
 
     try {
       await axios.post(`${API_URL}/atenciones`, nuevaAtencion);
-      alert('Atencion medica registrada correctamente.');
+      alert('Atención médica registrada correctamente.');
       setFormAtencion({ estudiante: '', motivo: '', estado: 'Alta', observaciones: '' });
       cargarAtenciones();
     } catch (err) {
-      alert('Error al registrar la atencion medica.');
+      alert('Error al registrar la atención.');
     }
   };
 
   const abrirFichaEstudiante = (nombreEstudiante) => {
+    if (!nombreEstudiante) return;
     const est = estudiantes.find(e => e.nombre.toLowerCase() === nombreEstudiante.toLowerCase());
     const historialEstudiante = atenciones.filter(a => a.estudiante.toLowerCase() === nombreEstudiante.toLowerCase());
     
@@ -99,87 +137,76 @@ function App() {
 
   return (
     <div className="app-container">
+      <div className="top-bar"></div>
+
       <header>
-        <button 
-          className="btn-menu-hamburguesa" 
-          onClick={() => setSidebarAbierto(true)}
-        >
-          &#9776;
-        </button>
-        <div className="header-title-container">
-          <h1>SAMGY</h1>
-          <p>Sistema de Gestion de Enfermeria Escolar</p>
+        <div className="header-left">
+          <button 
+            className="btn-menu-hamburguesa" 
+            onClick={() => setSidebarAbierto(true)}
+          >
+            &#9776;
+          </button>
+          <div className="header-title-container">
+            <h1>SAMGY</h1>
+            <p>Sistema de Gestión de Enfermería Escolar</p>
+          </div>
         </div>
       </header>
 
-      {sidebarAbierto && (
-        <div className="sidebar-overlay" onClick={() => setSidebarAbierto(false)}></div>
-      )}
-
-      <div className={`sidebar-panel ${sidebarAbierto ? 'abierto' : ''}`}>
-        <div className="sidebar-header">
-          <h2>Menu Principal</h2>
-          <button className="btn-cerrar-sidebar" onClick={() => setSidebarAbierto(false)}>
-            &#10005;
-          </button>
-        </div>
-        <ul className="sidebar-menu">
-          <li>
-            <button 
-              className={`sidebar-link ${seccionActiva === 'inicio' ? 'activo' : ''}`}
-              onClick={() => cambiarSeccion('inicio')}
-            >
-              Inicio / Busqueda
-            </button>
-          </li>
-          <li>
-            <button 
-              className={`sidebar-link ${seccionActiva === 'atencion' ? 'activo' : ''}`}
-              onClick={() => cambiarSeccion('atencion')}
-            >
-              Registrar Atencion
-            </button>
-          </li>
-          <li>
-            <button 
-              className={`sidebar-link ${seccionActiva === 'registro' ? 'activo' : ''}`}
-              onClick={() => cambiarSeccion('registro')}
-            >
-              Nuevo Estudiante
-            </button>
-          </li>
-          <li>
-            <button 
-              className={`sidebar-link ${seccionActiva === 'historial' ? 'activo' : ''}`}
-              onClick={() => cambiarSeccion('historial')}
-            >
-              Historial Completo
-            </button>
-          </li>
-        </ul>
-      </div>
+      {/* Menú separado */}
+      <Menu 
+        sidebarAbierto={sidebarAbierto} 
+        setSidebarAbierto={setSidebarAbierto}
+        seccionActiva={seccionActiva}
+        cambiarSeccion={cambiarSeccion}
+      />
 
       <main>
         {seccionActiva === 'inicio' && (
           <>
+            {/* Galería de fotos */}
+            <section 
+              className="carrusel-institucion" 
+              style={{ backgroundImage: `url(${slidesGaleria[slideActual].imagen})` }}
+            >
+              <div className="carrusel-overlay">
+                <div className="carrusel-contenido">
+                  <h2>{slidesGaleria[slideActual].titulo}</h2>
+                  <p>{slidesGaleria[slideActual].texto}</p>
+                </div>
+              </div>
+              <button className="carrusel-btn prev" onClick={anteriorSlide}>&#10094;</button>
+              <button className="carrusel-btn next" onClick={siguienteSlide}>&#10095;</button>
+              <div className="carrusel-puntos">
+                {slidesGaleria.map((_, index) => (
+                  <span 
+                    key={index} 
+                    className={`punto ${index === slideActual ? 'activo' : ''}`}
+                    onClick={() => setSlideActual(index)}
+                  />
+                ))}
+              </div>
+            </section>
+
             <section className="card">
-              <h2>Consulta Rapida de Estudiantes</h2>
-              <p>Ingresa el nombre del estudiante para ver su expediente.</p>
+              <h2>Consulta Rápida de Estudiantes</h2>
+              <p>Ingresa el nombre del estudiante para consultar su expediente clínico.</p>
               <div className="search-box">
                 <input 
                   type="text" 
-                  placeholder="Ej: Laura Martinez"
+                  placeholder="Ej: Laura Martínez"
                   value={queryBusqueda}
                   onChange={(e) => setQueryBusqueda(e.target.value)}
                 />
                 <button type="button" className="btn-primary" onClick={() => abrirFichaEstudiante(queryBusqueda)}>
-                  Buscar Ficha
+                  Buscar
                 </button>
               </div>
             </section>
 
             <section className="card">
-              <h2>Estado del Sistema de Enfermeria</h2>
+              <h2>Estado del Sistema</h2>
               <ul className="status-list">
                 <li>Estudiantes registrados: <strong>{estudiantes.length}</strong></li>
                 <li>Atenciones realizadas: <strong>{atenciones.length}</strong></li>
@@ -190,21 +217,21 @@ function App() {
 
         {seccionActiva === 'historial' && (
           <section className="card">
-            <h2>Historial de Atenciones Medicas</h2>
+            <h2>Historial de Atenciones Médicas</h2>
             <div className="tabla-contenedor">
               <table>
                 <thead>
                   <tr>
                     <th>Estudiante</th>
                     <th>Grado</th>
-                    <th>Motivo / Sintoma</th>
+                    <th>Motivo / Síntoma</th>
                     <th>Estado</th>
-                    <th>Accion</th>
+                    <th>Acción</th>
                   </tr>
                 </thead>
                 <tbody>
                   {atenciones.length === 0 ? (
-                    <tr><td colSpan="5" style={{ textAlign: 'center' }}>No hay atenciones registradas.</td></tr>
+                    <tr><td colSpan="5" style={{ textAlign: 'center' }}>No hay registros de atenciones.</td></tr>
                   ) : (
                     atenciones.map((item) => (
                       <tr key={item._id || item.id}>
@@ -254,7 +281,7 @@ function App() {
                   <input 
                     type="text" 
                     required 
-                    placeholder="Ej: Laura Martinez"
+                    placeholder="Ej: Laura Martínez"
                     value={formEstudiante.nombre}
                     onChange={(e) => setFormEstudiante({...formEstudiante, nombre: e.target.value})}
                   />
@@ -273,7 +300,7 @@ function App() {
                   />
                 </div>
                 <div className="form-campo">
-                  <label>Alergias / Condiciones Medicas</label>
+                  <label>Alergias / Condiciones Médicas</label>
                   <input 
                     type="text" 
                     placeholder="Ej: Penicilina, Ninguna"
@@ -288,13 +315,13 @@ function App() {
                   <label>Acudiente / Tutor</label>
                   <input 
                     type="text" 
-                    placeholder="Ej: Maria Rodriguez"
+                    placeholder="Ej: María Rodríguez"
                     value={formEstudiante.acudiente}
                     onChange={(e) => setFormEstudiante({...formEstudiante, acudiente: e.target.value})}
                   />
                 </div>
                 <div className="form-campo">
-                  <label>Telefono Contacto</label>
+                  <label>Teléfono Contacto</label>
                   <input 
                     type="text" 
                     placeholder="Ej: 3001234567"
@@ -311,17 +338,16 @@ function App() {
 
         {seccionActiva === 'atencion' && (
           <section className="card">
-            <h2>Registrar Atencion Medica</h2>
+            <h2>Registrar Atención Médica</h2>
             <form onSubmit={handleAddAttention}>
               <div className="form-campo-full">
                 <label>Seleccionar Estudiante*</label>
                 <select 
-                  className="select-desplegable"
                   required
                   value={formAtencion.estudiante}
                   onChange={(e) => setFormAtencion({...formAtencion, estudiante: e.target.value})}
                 >
-                  <option value="">-- Seleccione un estudiante de la lista --</option>
+                  <option value="">-- Seleccionar de la lista --</option>
                   {estudiantes.map((est) => (
                     <option key={est._id || est.doc} value={est.nombre}>
                       {est.nombre} ({est.grado})
@@ -335,7 +361,7 @@ function App() {
                 <input 
                   type="text" 
                   required 
-                  placeholder="Ej: Dolor de cabeza, Caida"
+                  placeholder="Ej: Dolor de cabeza"
                   value={formAtencion.motivo}
                   onChange={(e) => setFormAtencion({...formAtencion, motivo: e.target.value})}
                 />
@@ -345,7 +371,7 @@ function App() {
                 <label>Observaciones</label>
                 <input 
                   type="text" 
-                  placeholder="Ej: Reposo de 20 minutos"
+                  placeholder="Ej: Reposo en enfermería 15 min"
                   value={formAtencion.observaciones}
                   onChange={(e) => setFormAtencion({...formAtencion, observaciones: e.target.value})}
                 />
@@ -358,11 +384,11 @@ function App() {
                   onChange={(e) => setFormAtencion({...formAtencion, estado: e.target.value})}
                 >
                   <option value="Alta">Dado de Alta</option>
-                  <option value="Observacion">En Observacion</option>
+                  <option value="Observacion">En Observación</option>
                 </select>
               </div>
 
-              <button type="submit" className="btn-primary btn-guardar">Registrar Atencion</button>
+              <button type="submit" className="btn-primary btn-guardar">Registrar Atención</button>
             </form>
           </section>
         )}
@@ -370,17 +396,17 @@ function App() {
         {estudianteSeleccionado && (
           <div className="modal-overlay">
             <div className="modal-contenido card">
-              <h2>Ficha Clinica del Estudiante</h2>
+              <h2>Ficha Clínica del Estudiante</h2>
               <p><strong>Nombre:</strong> {estudianteSeleccionado.info.nombre}</p>
               <p><strong>Grado:</strong> {estudianteSeleccionado.info.grado}</p>
               <p><strong>Documento:</strong> {estudianteSeleccionado.info.doc}</p>
               <p><strong>Alergias:</strong> {estudianteSeleccionado.info.alergias}</p>
               <p><strong>Acudiente:</strong> {estudianteSeleccionado.info.acudiente || 'N/A'}</p>
-              <p><strong>Telefono:</strong> {estudianteSeleccionado.info.telefonoAcudiente || 'N/A'}</p>
+              <p><strong>Teléfono:</strong> {estudianteSeleccionado.info.telefonoAcudiente || 'N/A'}</p>
 
-              <h3 style={{ marginTop: '15px', color: '#03658C' }}>Historial de Atenciones</h3>
+              <h3 style={{ marginTop: '15px', color: '#0F5836' }}>Historial de Atenciones</h3>
               {estudianteSeleccionado.historial.length === 0 ? (
-                <p>Sin registros previas.</p>
+                <p>Sin registros previos.</p>
               ) : (
                 <ul className="status-list">
                   {estudianteSeleccionado.historial.map((h, i) => (
@@ -405,7 +431,7 @@ function App() {
       </main>
 
       <footer>
-        Proyecto SAMGY - Yaricel Bayter, Mathias Hernandez, Gabriela Martinez, Andrea Pallares, Sajoha Vasquez[cite: 10]
+        Proyecto SAMGY - Yaricel Bayter, Mathias Hernández, Gabriela Martínez, Andrea Pallares, Sajoha Vásquez
       </footer>
     </div>
   );
